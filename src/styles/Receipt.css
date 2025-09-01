@@ -1,0 +1,22 @@
+/* Hide everything except the receipt when printing */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .receipt-container, .receipt-container * {
+    visibility: visible;
+  }
+  .receipt-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+  .receipt {
+    width: 80mm; /* Standard receipt width */
+    margin: 0 auto;
+  }
+  button {
+    display: none;
+  }
+}

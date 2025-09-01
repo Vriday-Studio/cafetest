@@ -1,0 +1,113 @@
+.payment-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.payment-method-selector {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.method-button {
+  padding: 10px 20px;
+  border: 2px solid #dc3545;
+  background: white;
+  color: #dc3545;
+  border-radius: 5px;
+  cursor: pointer;
+  flex: 1;
+}
+
+.method-button:hover {
+  background: #fff5f5;
+}
+
+.method-button.active {
+  border-color: #dc3545;
+  background: #dc3545;
+  color: white;
+}
+
+.qris-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.fake-qr-code {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  border: 2px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  background: #f8f9fa;
+}
+
+.qris-status {
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  background: #f8f9fa;
+}
+
+.payment-success {
+  text-align: center;
+  margin-top: 20px;
+  padding: 20px;
+  background: #d4edda;
+  border-radius: 5px;
+  color: #155724;
+}
+
+.error {
+  color: #dc3545;
+  margin: 10px 0;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+form div {
+  display: flex;
+  flex-direction: column;
+}
+
+form label {
+  margin-bottom: 5px;
+}
+
+form input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+button {
+  padding: 10px 20px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background: #c82333;
+}
+
+.back-button {
+  margin-top: 20px;
+  background: #dc3545;
+}
+
+.back-button:hover {
+  background: #c82333;
+}
