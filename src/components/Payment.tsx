@@ -38,6 +38,16 @@ const Payment: React.FC<PaymentProps> = ({ menuItems, selectedItems, selectedTab
     return () => clearTimeout(timer);
   }, [paymentMethod, qrisStatus]);
 
+  useEffect(() => {
+    if (paymentCompleted) {
+      // Send total payment to n8n webhook
+      fetch(`https://n8n.srv954455.hstgr.cloud/webhook-test/webhook-test?total=${totalRupiah}`)
+        .then(res => res.ok ? res.text() : Promise.reject('Failed to send to webhook'))
+        .then(data => console.log('Webhook response:', data))
+        .catch(err => console.error('Webhook error:', err));
+    }
+  }, [paymentCompleted, totalRupiah]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (paymentMethod === 'card') {

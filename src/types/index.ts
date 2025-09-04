@@ -5,6 +5,7 @@ export interface MenuItem {
   description: string;
   image?: string;
   category: 'main' | 'opening' | 'drink';
+  available: boolean;
 }
 
 export interface Order {

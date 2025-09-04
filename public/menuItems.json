@@ -1,0 +1,101 @@
+[
+  {
+    "id": 1,
+    "name": "Kani Sushi",
+    "price": 55000,
+    "image": "/images/KANI-SUSHI-1.jpg",
+    "description": "Crab stick sushi with Japanese rice and seaweed.",
+    "category": "opening",
+    "available": true
+  },
+  {
+    "id": 2,
+    "name": "Yokohama Spicy Ramen",
+    "price": 33000,
+    "image": "/images/YOKOHAMA-SPICY-RAMEN.jpg",
+    "description": "Spicy ramen noodles with pork, egg, and vegetables.",
+    "category": "main",
+    "available": true
+  },
+  {
+    "id": 3,
+    "name": "Spicy Beef Donburi",
+    "price": 37000,
+    "image": "/images/SPICY-BEEF-DONBURI.jpg",
+    "description": "Rice bowl topped with spicy beef and onions.",
+    "category": "main",
+    "available": true
+  },
+  {
+    "id": 4,
+    "name": "Summer Mojito",
+    "price": 15000,
+    "image": "/images/SUMMER-MOJITO.jpg",
+    "description": "Refreshing mojito with mint and lime.",
+    "category": "drink",
+    "available": true
+  },
+  {
+    "id": 5,
+    "name": "Japanese Tea",
+    "price": 7000,
+    "image": "/images/TEA.jpg",
+    "description": "Traditional Japanese green tea.",
+    "category": "drink",
+    "available": true
+  },
+  {
+    "id": 6,
+    "name": "Tehbotol Sosro",
+    "price": 6000,
+    "image": "/images/TEHBOTOL-SOSRO-KOTAK-3.jpg",
+    "description": "Popular sweet bottled tea from Indonesia.",
+    "category": "drink",
+    "available": true
+  },
+  {
+    "id": 7,
+    "name": "Takoyaki",
+    "price": 16000,
+    "image": "/images/TAKOYAKI.jpg",
+    "description": "Popular Japanese street food made of battered octopus balls.",
+    "category": "opening",
+    "available": true
+  },
+  {
+    "id": 8,
+    "name": "Gyoza Steamed Dumplings",
+    "price": 6000,
+    "image": "/images/GYOZA-STEAMED.jpg",
+    "description": "Delicious steamed dumplings filled with minced meat and vegetables.",
+    "category": "opening",
+    "available": true
+  },
+  {
+    "id": 9,
+    "name": "Tempura Karage Bento",
+    "price": 36000,
+    "image": "/images/TEMPURA-KARAGE-BENTO.jpg",
+    "description": "Bento with Karage tempura.",
+    "category": "main",
+    "available": true
+  },
+  {
+    "id": 10,
+    "name": "Beef Teriyaki Bento",
+    "price": 39000,
+    "image": "/images/BEEF-TERIYAKI-BENTO.jpg",
+    "description": "Bento with Beef Teriyaki.",
+    "category": "main",
+    "available": true
+  },
+  {
+    "id": 1756951237626,
+    "name": "Sushi Salmon",
+    "price": 25000,
+    "image": "/images/SALMON-SUSHI-2.jpg",
+    "description": "sus",
+    "category": "main",
+    "available": true
+  }
+]
