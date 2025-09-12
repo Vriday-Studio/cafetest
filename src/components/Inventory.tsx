@@ -70,14 +70,15 @@ const Inventory: React.FC<InventoryProps> = ({ menuItems, setMenuItems, onBack }
   const [newImage, setNewImage] = useState('');
   const [newDescription, setNewDescription] = useState('');
   const [newCategory, setNewCategory] = useState<'main' | 'opening' | 'drink'>('main');
+  const [newStock, setNewStock] = useState('');
   const [error, setError] = useState('');
 
   const handleAddMenu = async () => {
-    if (!newName || !newPrice || isNaN(Number(newPrice)) || !newDescription || !newCategory) {
+    if (!newName || !newPrice || isNaN(Number(newPrice)) || !newDescription || !newCategory || !newStock || isNaN(Number(newStock))) {
       setError('Please enter all fields correctly');
       return;
     }
-    const newItem: MenuItem = {
+    const newItem = {
       id: Date.now(),
       name: newName,
       price: Number(newPrice),
@@ -85,15 +86,16 @@ const Inventory: React.FC<InventoryProps> = ({ menuItems, setMenuItems, onBack }
       description: newDescription,
       category: newCategory,
       available: true,
+      stock: Number(newStock)
     };
     const updatedMenu = [...menuItems, newItem];
     setMenuItems(updatedMenu);
-    // Save to JSON file
+    // Send new item to n8n webhook
     try {
-      await fetch('http://localhost:4000/api/menu', {
-        method: 'PUT',
+      await fetch('https://n8n.srv954455.hstgr.cloud/webhook/1ded969d-596d-4806-ae17-6def32558c46', {
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedMenu),
+        body: JSON.stringify(newItem),
       });
     } catch (e) {
       // ignore error for now
@@ -103,6 +105,7 @@ const Inventory: React.FC<InventoryProps> = ({ menuItems, setMenuItems, onBack }
     setNewImage('');
     setNewDescription('');
     setNewCategory('main');
+    setNewStock('');
     setError('');
   };
 
@@ -128,6 +131,13 @@ const Inventory: React.FC<InventoryProps> = ({ menuItems, setMenuItems, onBack }
           placeholder="Price"
           value={newPrice}
           onChange={e => setNewPrice(e.target.value)}
+          style={{ marginRight: 10 }}
+        />
+        <input
+          type="number"
+          placeholder="Jumlah item (stock)"
+          value={newStock}
+          onChange={e => setNewStock(e.target.value)}
           style={{ marginRight: 10 }}
         />
         <input

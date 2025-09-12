@@ -30,12 +30,43 @@ const Menu: React.FC<MenuProps> = ({ items, cart, onAddToCart, onRemoveFromCart,
             <div style={{ flex: 1 }}>
               <h3 style={{ margin: '0 0 0.5rem 0' }}>{item.name}</h3>
               <p style={{ margin: '0 0 0.5rem 0', color: '#666' }}>{item.description}</p>
-              <p style={{ margin: 0, fontWeight: 'bold' }}>Price: Rp {(item.price).toLocaleString('id-ID')}</p>
-              <p style={{ margin: 0, fontSize: '0.9rem', color: '#888' }}>Item No: {item.id}</p>
+              <p style={{ margin: '0 0 0.5rem 0', fontWeight: 'bold' }}>Price: Rp {(item.price).toLocaleString('id-ID')}</p>
+              <div style={{ display: 'flex', gap: '1rem', fontSize: '0.9rem' }}>
+                <p style={{ margin: 0, color: item.available ? '#28a745' : '#dc3545' }}>
+                  {item.available ? 'Available' : 'Not Available'}
+                </p>
+                <p style={{ margin: 0, color: item.stock > 5 ? '#28a745' : '#dc3545' }}>
+                  Stock: {item.stock}
+                </p>
+                <p style={{ margin: 0, color: '#888' }}>Item No: {item.id}</p>
+              </div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <button onClick={() => onAddToCart(item)} style={{ marginBottom: '0.5rem' }}>Add to Cart</button>
-              <button onClick={() => onRemoveFromCart(item)} style={{ marginBottom: '0.5rem' }}>Remove from Cart</button>
+              <button 
+                onClick={() => onAddToCart(item)} 
+                disabled={!item.available || item.stock <= (cart[item.id] || 0)}
+                style={{ 
+                  marginBottom: '0.5rem',
+                  backgroundColor: (!item.available || item.stock <= (cart[item.id] || 0)) ? '#ccc' : '#007bff',
+                  color: 'white',
+                  cursor: (!item.available || item.stock <= (cart[item.id] || 0)) ? 'not-allowed' : 'pointer'
+                }}
+              >
+                {!item.available ? 'Not Available' : 
+                  item.stock <= (cart[item.id] || 0) ? 'Out of Stock' : 'Add to Cart'}
+              </button>
+              <button 
+                onClick={() => onRemoveFromCart(item)} 
+                disabled={!cart[item.id]}
+                style={{ 
+                  marginBottom: '0.5rem',
+                  backgroundColor: !cart[item.id] ? '#ccc' : '#dc3545',
+                  color: 'white',
+                  cursor: !cart[item.id] ? 'not-allowed' : 'pointer'
+                }}
+              >
+                Remove from Cart
+              </button>
               <span style={{ fontSize: '1rem', color: '#333' }}>In Cart: {cart[item.id] || 0}</span>
             </div>
           </li>

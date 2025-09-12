@@ -6,6 +6,7 @@ export interface MenuItem {
   image?: string;
   category: 'main' | 'opening' | 'drink';
   available: boolean;
+  stock: number;
 }
 
 export interface Order {
