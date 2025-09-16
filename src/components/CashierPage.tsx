@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { database } from '../firebase/config';
-import { ref, onValue, update } from 'firebase/database';
+import { ref, onValue, update, set } from 'firebase/database';
 
 interface OrderItem {
   food_id: string;
@@ -59,10 +59,26 @@ const CashierPage: React.FC<CashierPageProps> = ({ onBack }) => {
     };
   }, []);
 
-  const updateOrderStatus = async (orderId: string, newStatus: Order['status']) => {
+  const updateTableAvailability = async (tableNo: string, isAvailable: boolean) => {
+    try {
+      const mejaRef = ref(database, `meja/${tableNo}`);
+      await set(mejaRef, {
+        available: isAvailable ? "available" : "not available"
+      });
+    } catch (err) {
+      console.error('Error updating table availability:', err);
+    }
+  };
+
+  const updateOrderStatus = async (orderId: string, newStatus: Order['status'], tableNo: string) => {
     try {
       const orderRef = ref(database, `orders/${orderId}`);
       await update(orderRef, { status: newStatus });
+
+      // If status is 'leave', update table availability
+      if (newStatus === 'leave') {
+        await updateTableAvailability(tableNo, true);
+      }
     } catch (err) {
       alert(`Failed to update order status: ${err}`);
     }
@@ -191,7 +207,7 @@ const CashierPage: React.FC<CashierPageProps> = ({ onBack }) => {
               )}
               {order.status === 'paid' && (
                 <button
-                  onClick={() => updateOrderStatus(order.id, 'leave')}
+                  onClick={() => updateOrderStatus(order.id, 'leave', order.tableNo)}
                   style={{
                     padding: "0.5rem 1rem",
                     backgroundColor: "#6c757d",
