@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { database } from '../firebase/config';
 import { ref, push, get, query, orderByChild, equalTo, set } from 'firebase/database';
+import { useAssistant } from '../context/AssistantContext';
 
 interface MenuItem {
   id: string;
@@ -33,12 +34,14 @@ interface TableStatus {
 }
 
 const OrderPage: React.FC<OrderPageProps> = ({ menu, onBack }) => {
+  const { setInstructionAssistant, sendAssistantMessage } = useAssistant();
   const [cart, setCart] = useState<CartItem[]>([]);
   const [tableNo, setTableNo] = useState('');
   const [loading, setLoading] = useState(false);
   const [tables, setTables] = useState<TableButton[]>([]);
   const [maxTables, setMaxTables] = useState(10);
   const [diningOption, setDiningOption] = useState<'dine-in' | 'takeaway'>('dine-in');
+  const [response, setResponse] = useState<string>(''); // Add this line
 
   const fetchTableAvailability = async (tableNumber: string): Promise<boolean> => {
     const mejaRef = ref(database, `meja/${tableNumber}`);
@@ -235,6 +238,14 @@ const OrderPage: React.FC<OrderPageProps> = ({ menu, onBack }) => {
     setTableNo(tableNum);
   };
 
+  // Modify the handleAddToCart function
+  const handleAddToCart = async (item: MenuItem) => {
+    addToCart(item);
+    setInstructionAssistant(`saya pesan ${item.name} bagaimana pendapatmu?`);
+    const assistantResponse = await sendAssistantMessage();
+    setResponse(assistantResponse);
+  };
+
   return (
     <div style={{ padding: "1rem" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2rem" }}>
@@ -276,7 +287,7 @@ const OrderPage: React.FC<OrderPageProps> = ({ menu, onBack }) => {
                 <h3>{item.name}</h3>
                 <p>Rp {item.price.toLocaleString()}</p>
                 <button
-                  onClick={() => addToCart(item)}
+                  onClick={() => handleAddToCart(item)}
                   disabled={!item.available || item.stock <= 0}
                   style={{
                     padding: "0.5rem",

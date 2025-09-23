@@ -1,12 +1,13 @@
 export interface MenuItem {
-  id: number;
+  id: string;
   name: string;
   price: number;
   description: string;
-  image?: string;
-  category: 'main' | 'opening' | 'drink';
+  image: string;
+  category: string;
   available: boolean;
   stock: number;
+  date: string;
 }
 
 export interface Order {
