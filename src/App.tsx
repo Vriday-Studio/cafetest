@@ -7,6 +7,8 @@ import OrderPage from './components/OrderPage';
 import CashierPage from './components/CashierPage';
 import EditMenu from './components/EditMenu';
 import { AssistantProvider, useAssistant } from './context/AssistantContext';
+import AuthModal from './components/AuthModal';
+import { useAuth } from './hooks/useAuth';
 import { MenuItem } from './types';
 
 const App: React.FC = () => {
@@ -19,6 +21,8 @@ const App: React.FC = () => {
   const [message, setMessage] = useState('');
   const [response, setResponse] = useState('');
   const [sessionId] = useState(`user${Math.random().toString(36).substr(2, 9)}`);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const { user, logout } = useAuth();
 
   const webhookUrltest = 'https://n8n.srv954455.hstgr.cloud/webhook-test/postchat';
 const webhookUrl = 'https://n8n.srv954455.hstgr.cloud/webhook/postchat';
@@ -274,7 +278,41 @@ const webhookUrl = 'https://n8n.srv954455.hstgr.cloud/webhook/postchat';
                   >
                     ➕ Add New Menu
                   </button>
-                  
+                  {user ? (
+                    <button
+                      onClick={logout}
+                      style={{
+                        padding: "0.75rem 1.5rem",
+                        backgroundColor: "#dc3545",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "8px",
+                        cursor: "pointer",
+                        fontSize: "1rem",
+                        fontWeight: "bold",
+                        boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                      }}
+                    >
+                      Logout ({user.email})
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => setIsAuthModalOpen(true)}
+                      style={{
+                        padding: "0.75rem 1.5rem",
+                        backgroundColor: "#ffc107",
+                        color: "black",
+                        border: "none",
+                        borderRadius: "8px",
+                        cursor: "pointer",
+                        fontSize: "1rem",
+                        fontWeight: "bold",
+                        boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                      }}
+                    >
+                      Login / Sign Up
+                    </button>
+                  )}
                 </div>
               </div>
               <div style={{ display: "grid", gap: "1rem", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))" }}>
@@ -342,6 +380,7 @@ const webhookUrl = 'https://n8n.srv954455.hstgr.cloud/webhook/postchat';
   return (
     <AssistantProvider>
       {renderContent()}
+      <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
     </AssistantProvider>
   );
 };

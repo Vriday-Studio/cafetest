@@ -5,14 +5,14 @@ import { getAuth } from 'firebase/auth';
 import { getDatabase } from 'firebase/database';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCoYAi5YwPRmKSBTLwl_9d0AOjUDOvtSLw",
-  authDomain: "cafetes-26e28.firebaseapp.com",
-  projectId: "cafetes-26e28",
-  storageBucket: "cafetes-26e28.firebasestorage.app",
-  messagingSenderId: "854334409891",
-  appId: "1:854334409891:web:38e7e7d596435cb7088316",
-  measurementId: "G-47FZZEJ4Z6",
-  databaseURL: "https://cafetes-26e28-default-rtdb.asia-southeast1.firebasedatabase.app",
+  apiKey: "AIzaSyDFcCafU2GOwyy723Lue4BTWAo_jkoH1B4",
+  authDomain: "arundaya-9fb69.firebaseapp.com",
+  databaseURL: "https://arundaya-9fb69-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "arundaya-9fb69",
+  storageBucket: "arundaya-9fb69.appspot.com",
+  messagingSenderId: "973011335469",
+  appId: "1:973011335469:web:17a692aeda668afbf93ba4",
+  measurementId: "G-MXV0KGYXNH"
 };
 
 // Initialize Firebase

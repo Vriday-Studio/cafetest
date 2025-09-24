@@ -1,6 +1,8 @@
 import React, { createContext, useState, useContext } from 'react';
 import { ref, set} from 'firebase/database';
 import { database } from '../firebase/config';
+import { storage } from '../firebase/config';
+import { ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { ElevenLabsClient } from '@elevenlabs/elevenlabs-js';
 interface AssistantContextType {
   instructionAssistant: string;
@@ -30,7 +32,7 @@ export const AssistantProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     }
   };
   const elevenlabs = new ElevenLabsClient({
-    apiKey: "b293fb8c5180e90b581c4d9887d1bc0a4df898d98752fa953af678803430151f", // Defaults to process.env.ELEVENLABS_API_KEY
+    apiKey: "e2fa3e637d2c2eedd0a8f2bc8ad4bb4454fd33953ee5b14814b3508c1b557e16", // Defaults to process.env.ELEVENLABS_API_KEY
 });
   const sendAssistantMessage = async () => {
     try {
@@ -63,7 +65,7 @@ export const AssistantProvider: React.FC<{ children: React.ReactNode }> = ({ chi
           modelId: 'eleven_multilingual_v2',
           outputFormat: 'mp3_44100_128',
           voiceSettings: {
-            stability: 0.5, // Example stability setting
+            stability: 0.4, // Example stability setting
             similarityBoost: 0.75, // Example similarity boost setting
             // The key setting for speed:
             speed: 1.2, // Set the desired speed here (0.7-1.2 range)
@@ -86,10 +88,17 @@ export const AssistantProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         
         await audioElement.play();
         
+        // Upload audio to Firebase Storage
+        const fileName = `assistant_audio.mp3`;
+        const audioStorageRef = storageRef(storage, `audio/${fileName}`);
+        await uploadBytes(audioStorageRef, audioBlob);
+        const downloadUrl = await getDownloadURL(audioStorageRef);
+        console.log('Audio uploaded to Firebase Storage:', downloadUrl);
+
         // Clean up URL after playing
         audioElement.onended = () => URL.revokeObjectURL(audioUrl);
       } catch (audioError) {
-        console.error('Error playing audio:', audioError);
+        console.error('Error playing or uploading audio:', audioError);
         // Continue without audio if there's an error
       }
       
