@@ -1,8 +1,6 @@
 import React, { createContext, useState, useContext } from 'react';
 import { ref, set} from 'firebase/database';
 import { database } from '../firebase/config';
-import { storage } from '../firebase/config';
-import { ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { ElevenLabsClient } from '@elevenlabs/elevenlabs-js';
 interface AssistantContextType {
   instructionAssistant: string;
@@ -88,12 +86,23 @@ export const AssistantProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         
         await audioElement.play();
         
-        // Upload audio to Firebase Storage
-        const fileName = `assistant_audio.mp3`;
-        const audioStorageRef = storageRef(storage, `audio/${fileName}`);
-        await uploadBytes(audioStorageRef, audioBlob);
-        const downloadUrl = await getDownloadURL(audioStorageRef);
-        console.log('Audio uploaded to Firebase Storage:', downloadUrl);
+        // Kirim audio ke backend untuk disimpan secara lokal
+        const formData = new FormData();
+        formData.append('audio', audioBlob, 'assistant_audio.mp3');
+
+        try {
+          const uploadRes = await fetch('http://localhost:3001/save-audio', { // Sesuaikan URL backend Anda
+            method: 'POST',
+            body: formData,
+          });
+
+          if (!uploadRes.ok) {
+            throw new Error(`Failed to upload audio to backend: ${uploadRes.statusText}`);
+          }
+          console.log('Audio sent to backend successfully.');
+        } catch (uploadError) {
+          console.error('Error sending audio to backend:', uploadError);
+        }
 
         // Clean up URL after playing
         audioElement.onended = () => URL.revokeObjectURL(audioUrl);
